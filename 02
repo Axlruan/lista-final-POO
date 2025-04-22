@@ -1,0 +1,114 @@
+using System;
+
+namespace Exercicio02
+{
+    public class Calculo
+    {
+        public double ValorA { get; set; }
+        public double ValorB { get; set; }
+        public double Resultado { get; set; }
+
+        public void CalcularSoma()
+        {
+            Resultado = ValorA + ValorB;
+        }
+
+        public void CalcularSubtracao()
+        {
+            Resultado = ValorA - ValorB;
+        }
+
+        public void CalcularMultiplicacao()
+        {
+            Resultado = ValorA * ValorB;
+        }
+
+        public double RetornarMaior()
+        {
+            return (ValorA > ValorB) ? ValorA : ValorB;
+        }
+
+        public double SomarGeral(double valorExtra)
+        {
+            return ValorA + ValorB + valorExtra;
+        }
+    }
+
+    public class Calculadora
+    {
+        private Calculo calculo;
+
+        public Calculadora()
+        {
+            calculo = new Calculo();
+        }
+
+        public void LerValores()
+        {
+            Console.Write("Digite o valor para A: ");
+            calculo.ValorA = Convert.ToDouble(Console.ReadLine());
+            Console.Write("Digite o valor para B: ");
+            calculo.ValorB = Convert.ToDouble(Console.ReadLine());
+        }
+
+        public void ExecutarCalculadora()
+        {
+            LerValores();
+
+            bool continuar = true;
+            while (continuar)
+            {
+                Console.WriteLine("\nMenu de Operações:");
+                Console.WriteLine("1. Soma");
+                Console.WriteLine("2. Subtração");
+                Console.WriteLine("3. Multiplicação");
+                Console.WriteLine("4. Retornar Maior Valor");
+                Console.WriteLine("5. Somar Geral (incluindo valor extra)");
+                Console.WriteLine("6. Sair");
+                Console.Write("Escolha uma opção: ");
+                string opcao = Console.ReadLine();
+
+                switch (opcao)
+                {
+                    case "1":
+                        calculo.CalcularSoma();
+                        Console.WriteLine($"Resultado da Soma: {calculo.Resultado}");
+                        break;
+                    case "2":
+                        calculo.CalcularSubtracao();
+                        Console.WriteLine($"Resultado da Subtração: {calculo.Resultado}");
+                        break;
+                    case "3":
+                        calculo.CalcularMultiplicacao();
+                        Console.WriteLine($"Resultado da Multiplicação: {calculo.Resultado}");
+                        break;
+                    case "4":
+                        double maior = calculo.RetornarMaior();
+                        Console.WriteLine($"O maior valor entre A e B é: {maior}");
+                        break;
+                    case "5":
+                        Console.Write("Digite o valor extra para a soma geral: ");
+                        double extra = Convert.ToDouble(Console.ReadLine());
+                        double somaGeral = calculo.SomarGeral(extra);
+                        Console.WriteLine($"Resultado da Soma Geral: {somaGeral}");
+                        break;
+                    case "6":
+                        continuar = false;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        break;
+                }
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Calculadora calculadora = new Calculadora();
+            calculadora.ExecutarCalculadora();
+        }
+    }
+}
