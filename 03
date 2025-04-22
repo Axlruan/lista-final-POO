@@ -1,0 +1,91 @@
+using System;
+using System.Globalization;
+using System.Collections.Generic;
+
+namespace Exercicio03
+{
+    public class Funcionario
+    {
+        public string NomeCompleto { get; set; }
+        public double Salario { get; set; }
+
+        public virtual void ExibirDados()
+        {
+            string[] nomes = NomeCompleto.Split(' ');
+            string ultimoNome = nomes[nomes.Length - 1].ToUpper();
+
+            Console.WriteLine($"Sobrenome: {ultimoNome}");
+            Console.WriteLine($"Salário: {Salario.ToString("C", new CultureInfo("pt-BR"))}");
+        }
+    }
+
+    public class Gerente : Funcionario
+    {
+        public string Departamento { get; set; }
+
+        public override void ExibirDados()
+        {
+            base.ExibirDados();
+            Console.WriteLine($"Departamento: {Departamento}");
+            if (Salario > 10000)
+            {
+                Console.WriteLine("Status: Alta Gestão.");
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Funcionario> funcionarios = new List<Funcionario>();
+            bool sair = false;
+            while (!sair)
+            {
+                Console.WriteLine("\nMenu de Recursos Humanos:");
+                Console.WriteLine("1. Cadastrar Funcionário");
+                Console.WriteLine("2. Cadastrar Gerente");
+                Console.WriteLine("3. Exibir todos os cadastrados");
+                Console.WriteLine("4. Sair");
+                Console.Write("Escolha uma opção: ");
+                string opcao = Console.ReadLine();
+
+                switch (opcao)
+                {
+                    case "1":
+                        Funcionario funcionario = new Funcionario();
+                        Console.Write("Digite o nome completo do funcionário: ");
+                        funcionario.NomeCompleto = Console.ReadLine();
+                        Console.Write("Digite o salário: ");
+                        funcionario.Salario = Convert.ToDouble(Console.ReadLine());
+                        funcionarios.Add(funcionario);
+                        break;
+                    case "2":
+                        Gerente gerente = new Gerente();
+                        Console.Write("Digite o nome completo do gerente: ");
+                        gerente.NomeCompleto = Console.ReadLine();
+                        Console.Write("Digite o salário: ");
+                        gerente.Salario = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Digite o departamento: ");
+                        gerente.Departamento = Console.ReadLine();
+                        funcionarios.Add(gerente);
+                        break;
+                    case "3":
+                        Console.WriteLine("\nDados dos Funcionários:");
+                        foreach (var func in funcionarios)
+                        {
+                            Console.WriteLine("----------------------------");
+                            func.ExibirDados();
+                        }
+                        break;
+                    case "4":
+                        sair = true;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        break;
+                }
+            }
+        }
+    }
+}
