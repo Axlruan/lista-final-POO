@@ -1,0 +1,73 @@
+using System;
+
+namespace Exercicio04
+{
+    public class VagaEstacionamento
+    {
+        private int _numeroVaga;
+        private bool _ocupada;
+        private string _tipoVeiculo;
+        public int NumeroVaga { get { return _numeroVaga; } }
+        public bool Ocupada { get { return _ocupada; } }
+        public string TipoVeiculo
+        {
+            get { return _tipoVeiculo; }
+            private set
+            {
+                if (value == "Carro" || value == "Moto" || value == "Caminhão")
+                    _tipoVeiculo = value;
+                else
+                    Console.WriteLine("Tipo de veículo inválido.");
+            }
+        }
+
+        public VagaEstacionamento(int numeroVaga, string tipoVeiculo)
+        {
+            _numeroVaga = numeroVaga;
+            _ocupada = false;
+            TipoVeiculo = tipoVeiculo;
+        }
+
+        public void OcuparVaga()
+        {
+            _ocupada = true;
+        }
+
+        public void LiberarVaga()
+        {
+            _ocupada = false;
+        }
+
+        public void AlterarTipoVeiculo(string novoTipo)
+        {
+            if (_ocupada)
+                Console.WriteLine("Não é possível alterar o tipo de veículo. A vaga está ocupada.");
+            else
+            {
+                if (novoTipo == "Carro" || novoTipo == "Moto" || novoTipo == "Caminhão")
+                    _tipoVeiculo = novoTipo;
+                else
+                    Console.WriteLine("Tipo de veículo inválido.");
+            }
+        }
+
+        public void ExibirInformacoes()
+        {
+            string status = _ocupada ? "Ocupada" : "Livre";
+            Console.WriteLine($"Vaga: {_numeroVaga}, Tipo de Veículo: {_tipoVeiculo}, Status: {status}");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            VagaEstacionamento vaga = new VagaEstacionamento(101, "Carro");
+            vaga.OcuparVaga();
+            vaga.AlterarTipoVeiculo("Moto");
+            vaga.LiberarVaga();
+            vaga.AlterarTipoVeiculo("Moto");
+            vaga.ExibirInformacoes();
+        }
+    }
+}
