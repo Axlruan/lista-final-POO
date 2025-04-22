@@ -1,0 +1,114 @@
+using System;
+
+namespace Exercicio01
+{
+    public class Produto
+    {
+        private string _nome;
+        private double _preco;
+        private int _quantidadeTotal;
+
+        public string Nome
+        {
+            get { return _nome; }
+            set { _nome = value; }
+        }
+
+        public double Preco
+        {
+            get { return _preco; }
+            set { _preco = value; }
+        }
+
+        public int Quantidade
+        {
+            set { AdicionarEstoque(value); }
+        }
+
+        public int QuantidadeTotal
+        {
+            get { return _quantidadeTotal; }
+        }
+
+        public Produto(string nome, double preco, int quantidadeInicial = 0)
+        {
+            _nome = nome;
+            _preco = preco;
+            _quantidadeTotal = quantidadeInicial;
+        }
+
+        public void AdicionarEstoque(int quantidade)
+        {
+            _quantidadeTotal += quantidade;
+        }
+
+        public void RemoverEstoque(int qtde)
+        {
+            if (qtde <= _quantidadeTotal)
+                _quantidadeTotal -= qtde;
+            else
+                Console.WriteLine("Estoque insuficiente.");
+        }
+
+        public double ValorTotalEmEstoque()
+        {
+            return _preco * _quantidadeTotal;
+        }
+
+        public override string ToString()
+        {
+            return $"Produto: {_nome}, Preço: {_preco:C}, Quantidade em Estoque: {_quantidadeTotal}, Valor Total: {ValorTotalEmEstoque():C}";
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Digite o nome do produto: ");
+            string nome = Console.ReadLine();
+
+            Console.Write("Digite o preço do produto: ");
+            double preco = Convert.ToDouble(Console.ReadLine());
+
+            Produto produto = new Produto(nome, preco);
+
+            bool sair = false;
+            while (!sair)
+            {
+                Console.WriteLine("\nMenu de Estoque:");
+                Console.WriteLine("1. Adicionar estoque");
+                Console.WriteLine("2. Remover estoque");
+                Console.WriteLine("3. Exibir informações do produto");
+                Console.WriteLine("4. Sair");
+                Console.Write("Escolha uma opção: ");
+                string opcao = Console.ReadLine();
+
+                switch (opcao)
+                {
+                    case "1":
+                        Console.Write("Digite a quantidade para adicionar: ");
+                        int qtdeAdd = Convert.ToInt32(Console.ReadLine());
+                        produto.AdicionarEstoque(qtdeAdd);
+                        Console.WriteLine("Estoque atualizado.");
+                        break;
+                    case "2":
+                        Console.Write("Digite a quantidade para remover: ");
+                        int qtdeRem = Convert.ToInt32(Console.ReadLine());
+                        produto.RemoverEstoque(qtdeRem);
+                        Console.WriteLine("Estoque atualizado.");
+                        break;
+                    case "3":
+                        Console.WriteLine(produto.ToString());
+                        break;
+                    case "4":
+                        sair = true;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        break;
+                }
+            }
+        }
+    }
+}
